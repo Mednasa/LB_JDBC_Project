@@ -1,5 +1,5 @@
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import utilities.ConfigReader;
 
 import java.sql.*;
 
