@@ -1,5 +1,8 @@
 package utilities;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ public class DatabaseHelper {
 
         return table;
     }
-
+    @BeforeClass
     public static void DBConnectionOpen() {
         String url = ConfigReader.getProperty("URL");
         String username = ConfigReader.getProperty("username");
@@ -46,7 +49,7 @@ public class DatabaseHelper {
             System.out.println("ex.getMessage() = " + ex.getMessage());
         }
     }
-
+    @AfterClass
     public static void DBConnectionClose() {
         try {
             link.close();
