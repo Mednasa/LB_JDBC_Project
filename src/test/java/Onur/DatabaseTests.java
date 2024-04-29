@@ -19,11 +19,11 @@ public class DatabaseTests extends DatabaseHelper {
                 "left join departments ON departments.dept_no=dept_emp.dept_no\n" +
                 "where dept_name='Research'\n" +
                 "group by employees.emp_no\n" +
-                "order by Maas desc limit 1;");
+                "order by Maas desc limit 1 ;");
 
         for (List<String> row : returnedData) {
             for (String columns : row) {
-                System.out.print(columns + "\t");
+                System.out.printf("%-10s",columns);
             }
             System.out.println();
         }
