@@ -25,13 +25,13 @@ public class DatabaseTests extends DatabaseHelper {
 
         System.out.println("Calculated By Department Number: \n ");
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-            System.out.printf("%-10s", rsmd.getColumnName(i) + "\t");
+            System.out.printf("%-10s", rsmd.getColumnName(i));
         }
         System.out.println();
 
         while (rs.next()) {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.printf("%-10s", rs.getString(i) + "\t");
+                System.out.printf("%-10s", rs.getString(i));
             }
             System.out.println();
         }
@@ -46,13 +46,13 @@ public class DatabaseTests extends DatabaseHelper {
         ResultSetMetaData rsmd2 = rs2.getMetaData();
 
         for (int i = 1; i <= rsmd2.getColumnCount(); i++) {
-            System.out.printf("%-20s", rsmd2.getColumnName(i) + "\t");
+            System.out.printf("%-20s", rsmd2.getColumnName(i));
         }
         System.out.println();
 
         while (rs2.next()) {
             for (int i = 1; i <= rsmd2.getColumnCount(); i++) {
-                System.out.printf("%-20s", rs2.getString(i) + "\t");
+                System.out.printf("%-20s", rs2.getString(i));
             }
             System.out.println();
         }
@@ -75,13 +75,13 @@ public class DatabaseTests extends DatabaseHelper {
         ResultSetMetaData rsmd = rs.getMetaData();
 
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-            System.out.printf("%-20s", rsmd.getColumnName(i) + "\t");
+            System.out.printf("%-20s", rsmd.getColumnName(i));
         }
         System.out.println();
 
         while (rs.next()) {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.printf("%-20s", rs.getString(i) + "\t");
+                System.out.printf("%-20s", rs.getString(i));
             }
             System.out.println();
         }
@@ -151,9 +151,9 @@ public class DatabaseTests extends DatabaseHelper {
 
         System.out.printf("%-20s%-20s%-20s%n", "First Name:", "Last Name:", "Hire Date:");
 
-        int count=0;
+        int count = 0;
         for (List<String> row : returnedData) {
-            if (count >=100){
+            if (count >= 100) {
                 break;
             }
             for (String column : row) {
@@ -163,5 +163,39 @@ public class DatabaseTests extends DatabaseHelper {
             count++;
         }
         DBConnectionClose();
+    }
+    @Test
+    public void Test21() throws SQLException {
+        //21- a: Find the count of male employees (179973)
+        //  - b: Determine the count of female employees (120050)
+        //  - c: Find the number of male and female employees by grouping:
+        //  - d: Calculate the total number of employees in the company (300023)
+
+        DBConnectionOpen();
+
+        System.out.printf("%-20s%-20s%-20s%n", "Male Count:", "Female Count:", "Total Employees:");
+
+        // a
+        ResultSet rs1 = queryScreen.executeQuery("SELECT COUNT(gender) AS Male_Count FROM employees WHERE gender = 'M'; ");
+        rs1.next();
+        System.out.printf("%-20s", rs1.getString("Male_Count"));
+
+        // b
+        ResultSet rs2 = queryScreen.executeQuery("SELECT COUNT(gender) AS Female_Count FROM employees WHERE gender = 'F';");
+        rs2.next();
+        System.out.printf("%-20s", rs2.getString("Female_Count"));
+
+        // c
+        ResultSet rs3 = queryScreen.executeQuery("SELECT COUNT(emp_no) AS Total_Employees FROM employees; ");
+        rs3.next();
+        System.out.printf("%-20s", rs3.getString("Total_Employees"));
+        System.out.println();
+        // d
+        ResultSet rs4 = queryScreen.executeQuery("SELECT gender, COUNT(*) AS count FROM employees GROUP BY gender;");
+        while (rs4.next()) {
+            String gender = rs4.getString("gender");
+            String count = rs4.getString("count");
+            System.out.printf("\nGender: %-11s Count: %-11s\n", gender, count);
+        }
     }
 }
