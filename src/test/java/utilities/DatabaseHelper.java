@@ -36,7 +36,7 @@ public class DatabaseHelper {
 
         return table;
     }
-    @BeforeClass
+
     public static void DBConnectionOpen() {
         String url = ConfigReader.getProperty("URL");
         String username = ConfigReader.getProperty("username");
@@ -49,7 +49,7 @@ public class DatabaseHelper {
             System.out.println("ex.getMessage() = " + ex.getMessage());
         }
     }
-    @AfterClass
+
     public static void DBConnectionClose() {
         try {
             link.close();
