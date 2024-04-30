@@ -38,7 +38,7 @@ public class DatabaseHelper {
     }
 
     public static void DBConnectionOpen() {
-        String url = ConfigReader.getProperty("URL");
+        String url = ConfigReader.getProperty("url");
         String username = ConfigReader.getProperty("username");
         String password = ConfigReader.getProperty("password");
 
