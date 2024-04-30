@@ -57,5 +57,32 @@ public class DatabaseTests extends DatabaseHelper {
         }
         DBConnectionClose();
     }
+    @Test
+    public void Test9() throws SQLException {
 
+        //  9. Calculate the average salary for each department, including department names
+
+        DBConnectionOpen();
+        ResultSet rs = queryScreen.executeQuery("SELECT d.dept_no, d.dept_name, AVG(s.salary) AS average_salary\n" +
+                "FROM employees e\n" +
+                "JOIN dept_emp de ON e.emp_no = de.emp_no\n" +
+                "JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                "JOIN departments d ON de.dept_no = d.dept_no\n" +
+                "GROUP BY d.dept_no, d.dept_name;");
+
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.printf("%-20s",rsmd.getColumnName(i) + "\t");
+        }
+        System.out.println();
+
+        while (rs.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.printf("%-20s", rs.getString(i) + "\t");
+            }
+            System.out.println();
+        }
+        DBConnectionClose();
+    }
 }
