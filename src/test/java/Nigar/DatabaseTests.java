@@ -110,6 +110,7 @@ public class DatabaseTests extends DatabaseHelper {
                     "\nDepartment: " + rs.getString("dept_name") +
                     "\nSalary: " + rs.getString("highest_salary"));
         }
+        DBConnectionClose();
     }
 
     @Test
@@ -127,12 +128,40 @@ public class DatabaseTests extends DatabaseHelper {
                 "GROUP BY d.dept_name\n" +
                 "ORDER BY max_salary DESC;");
 
-        System.out.printf("%-20s%-20s%-20s%-20s%n","Department:","First Name:", "Last Name:", "Salary:");
+        System.out.printf("%-20s%-20s%-20s%-20s%n", "Department:", "First Name:", "Last Name:", "Salary:");
         for (List<String> row : returnedData) {
             for (String column : row) {
                 System.out.printf("%-20s", column);
             }
             System.out.println();
         }
+        DBConnectionClose();
+    }
+
+    @Test
+    public void Test18() {
+        // 18. List the names, last names, and hire dates in
+        // alphabetical order of all employees hired before January 01, 1990.
+
+        DBConnectionOpen();
+        List<List<String>> returnedData = getListData("SELECT first_name, last_name, hire_date\n" +
+                "FROM employees\n" +
+                "WHERE hire_date < '1990-01-01'\n" +
+                "ORDER BY first_name ASC, last_name ASC;");
+
+        System.out.printf("%-20s%-20s%-20s%n", "First Name:", "Last Name:", "Hire Date:");
+
+        int count=0;
+        for (List<String> row : returnedData) {
+            if (count >=100){
+                break;
+            }
+            for (String column : row) {
+                System.out.printf("%-20s", column);
+            }
+            System.out.println();
+            count++;
+        }
+        DBConnectionClose();
     }
 }
