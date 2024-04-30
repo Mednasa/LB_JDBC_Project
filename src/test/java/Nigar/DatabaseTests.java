@@ -8,7 +8,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public class DatabaseTests extends DatabaseHelper {
     @Test
     public void Test8() throws SQLException {
@@ -164,6 +163,7 @@ public class DatabaseTests extends DatabaseHelper {
         }
         DBConnectionClose();
     }
+
     @Test
     public void Test21() throws SQLException {
         //21- a: Find the count of male employees (179973)
@@ -190,6 +190,7 @@ public class DatabaseTests extends DatabaseHelper {
         rs3.next();
         System.out.printf("%-20s", rs3.getString("Total_Employees"));
         System.out.println();
+
         // d
         ResultSet rs4 = queryScreen.executeQuery("SELECT gender, COUNT(*) AS count FROM employees GROUP BY gender;");
         while (rs4.next()) {
@@ -197,5 +198,6 @@ public class DatabaseTests extends DatabaseHelper {
             String count = rs4.getString("count");
             System.out.printf("\nGender: %-11s Count: %-11s\n", gender, count);
         }
+        DBConnectionClose();
     }
 }
