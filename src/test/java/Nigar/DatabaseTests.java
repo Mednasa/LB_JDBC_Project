@@ -6,6 +6,7 @@ import utilities.DatabaseHelper;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class DatabaseTests extends DatabaseHelper {
@@ -108,6 +109,30 @@ public class DatabaseTests extends DatabaseHelper {
                     "\nLast Name: " + rs.getString("last_name") +
                     "\nDepartment: " + rs.getString("dept_name") +
                     "\nSalary: " + rs.getString("highest_salary"));
+        }
+    }
+
+    @Test
+    public void Test16() throws SQLException {
+        // 16. For each department, identify the employee with the highest single salary ever recorded. List the
+        //     department name, employee's first name, last name, and the peak salary amount. Order the results
+        //     by the peak salary in descending order.
+
+        DBConnectionOpen();
+        List<List<String>> returnedData = getListData("SELECT d.dept_name AS department, e.first_name, e.last_name, MAX(s.salary) AS max_salary\n" +
+                "FROM employees e\n" +
+                "INNER JOIN dept_emp de ON e.emp_no = de.emp_no\n" +
+                "INNER JOIN departments d ON de.dept_no = d.dept_no\n" +
+                "INNER JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                "GROUP BY d.dept_name\n" +
+                "ORDER BY max_salary DESC;");
+
+        System.out.printf("%-20s%-20s%-20s%-20s%n","Department:","First Name:", "Last Name:", "Salary:");
+        for (List<String> row : returnedData) {
+            for (String column : row) {
+                System.out.printf("%-20s", column);
+            }
+            System.out.println();
         }
     }
 }
