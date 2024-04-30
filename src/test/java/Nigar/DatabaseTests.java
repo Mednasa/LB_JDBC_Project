@@ -24,13 +24,13 @@ public class DatabaseTests extends DatabaseHelper {
 
         System.out.println("Calculated By Department Number: \n ");
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-            System.out.printf("%-10s",rsmd.getColumnName(i) + "\t");
+            System.out.printf("%-10s", rsmd.getColumnName(i) + "\t");
         }
         System.out.println();
 
         while (rs.next()) {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.printf("%-10s",rs.getString(i) + "\t");
+                System.out.printf("%-10s", rs.getString(i) + "\t");
             }
             System.out.println();
         }
@@ -51,12 +51,13 @@ public class DatabaseTests extends DatabaseHelper {
 
         while (rs2.next()) {
             for (int i = 1; i <= rsmd2.getColumnCount(); i++) {
-                System.out.printf( "%-20s", rs2.getString(i) + "\t");
+                System.out.printf("%-20s", rs2.getString(i) + "\t");
             }
             System.out.println();
         }
         DBConnectionClose();
     }
+
     @Test
     public void Test9() throws SQLException {
 
@@ -73,7 +74,7 @@ public class DatabaseTests extends DatabaseHelper {
         ResultSetMetaData rsmd = rs.getMetaData();
 
         for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-            System.out.printf("%-20s",rsmd.getColumnName(i) + "\t");
+            System.out.printf("%-20s", rsmd.getColumnName(i) + "\t");
         }
         System.out.println();
 
@@ -84,5 +85,29 @@ public class DatabaseTests extends DatabaseHelper {
             System.out.println();
         }
         DBConnectionClose();
+    }
+
+    @Test
+    public void Test14() throws SQLException {
+        // 14. List the first name, last name, and highest salary of employees in the "Sales" department.
+        // Order the list by highest salary descending and only show the employee with the highest salary.
+
+        DBConnectionOpen();
+        ResultSet rs = queryScreen.executeQuery("SELECT e.first_name, e.last_name, d.dept_name, MAX(s.salary) AS highest_salary\n" +
+                "FROM employees e\n" +
+                "INNER JOIN dept_emp de ON e.emp_no = de.emp_no\n" +
+                "INNER JOIN departments d ON de.dept_no = d.dept_no\n" +
+                "INNER JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                "WHERE d.dept_name = 'Sales'\n" +
+                "GROUP BY e.first_name, e.last_name,d.dept_name\n" +
+                "ORDER BY highest_salary DESC\n" +
+                "LIMIT 1;");
+
+        while (rs.next()) {
+            System.out.println("First Name: " + rs.getString("first_name") +
+                    "\nLast Name: " + rs.getString("last_name") +
+                    "\nDepartment: " + rs.getString("dept_name") +
+                    "\nSalary: " + rs.getString("highest_salary"));
+        }
     }
 }
