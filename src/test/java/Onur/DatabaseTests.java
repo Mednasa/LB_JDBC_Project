@@ -33,4 +33,35 @@ public class DatabaseTests extends DatabaseHelper {
     }
 
 
+    @Test
+    public void Test17() {
+
+        DBConnectionOpen();
+
+        List<List<String>> returnedData = getListData("select dept_name, first_name, last_name, average_salary\n" +
+                "from (\n" +
+                "    select d.dept_name, e.first_name, e.last_name, AVG(s.salary) as average_salary\n" +
+                "    from departments d\n" +
+                "    left join dept_emp de ON d.dept_no = de.dept_no\n" +
+                "\tleft join employees e ON e.emp_no = de.emp_no\n" +
+                "\tleft join salaries s ON s.emp_no = e.emp_no\n" +
+                "    group by  e.emp_no\n" +
+                "    order by average_salary desc\n" +
+                ") as new_table\n" +
+                "group by dept_name\n" +
+                "order by MAX(average_salary) desc;");
+
+
+        for (List<String> row : returnedData) {
+            for (String columns : row) {
+                System.out.printf("%-20s|",columns);
+            }
+            System.out.println();
+        }
+
+
+        DBConnectionClose();
+    }
+
+
 }
