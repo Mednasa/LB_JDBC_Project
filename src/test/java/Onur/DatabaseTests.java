@@ -3,6 +3,7 @@ package Onur;
 import org.testng.annotations.Test;
 import utilities.DatabaseHelper;
 
+import java.sql.ResultSetMetaData;
 import java.util.List;
 
 public class DatabaseTests extends DatabaseHelper {
@@ -87,6 +88,37 @@ public class DatabaseTests extends DatabaseHelper {
             System.out.println();
         }
 
+
+        DBConnectionClose();
+    }
+
+    @Test
+    public void Test22() {
+
+        DBConnectionOpen();
+
+        List<List<String>> returnedData1 = getListData("select count(distinct first_name)as miktar   \n" +
+                "from employees");
+
+        System.out.println("Unique First Names Numbers");
+        for (List<String> row : returnedData1) {
+            for (String columns : row) {
+                System.out.printf("%-5s",columns);
+            }
+            System.out.println();
+        }
+
+
+        List<List<String>> returnedData2 = getListData("select count(distinct dept_name) as miktar\n" +
+                "from departments");
+
+        System.out.println("The Number Of Distinct Department Names");
+        for (List<String> row : returnedData2) {
+            for (String columns : row) {
+                System.out.printf("%-5s",columns);
+            }
+            System.out.println();
+        }
 
         DBConnectionClose();
     }
