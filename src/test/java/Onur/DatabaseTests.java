@@ -123,5 +123,25 @@ public class DatabaseTests extends DatabaseHelper {
         DBConnectionClose();
     }
 
+    @Test
+    public void Test24() {
+
+        DBConnectionOpen();
+
+        List<List<String>> returnedData = getListData("select  first_name,last_name,hire_date as iseAlınmaTarihi \n" +
+                "from employees\n" +
+                "where hire_date between '1985-01-01'and '1990-02-21'\n" +
+                "order by iseAlınmaTarihi limit 100");
+
+        for (List<String> row : returnedData) {
+            for (String columns : row) {
+                System.out.printf("%-15s|",columns);
+            }
+            System.out.println();
+        }
+
+        DBConnectionClose();
+    }
+
 
 }
