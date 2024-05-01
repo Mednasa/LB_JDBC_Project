@@ -64,4 +64,32 @@ public class DatabaseTests extends DatabaseHelper {
     }
 
 
+    @Test
+    public void Test19() {
+
+        DBConnectionOpen();
+
+        List<List<String>> returnedData = getListData("select first_name,last_name,salaries.from_date as İşe_Başlama_Tarihi \n" +
+                "from salaries\n" +
+                "left join employees ON employees.emp_no=salaries.emp_no\n" +
+                "left join dept_emp ON dept_emp.emp_no=salaries.emp_no\n" +
+                "left join departments ON departments.dept_no=dept_emp.dept_no\n" +
+                "where salaries.from_date between'1985-01-01' and '1989-12-31'\n" +
+                "group by employees.emp_no\n" +
+                "order by salaries.from_date,employees.first_name");
+
+
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < returnedData.get(i).size(); j++) {
+                System.out.printf("%-14s|",returnedData.get(i).get(j));
+
+            }
+            System.out.println();
+        }
+
+
+        DBConnectionClose();
+    }
+
+
 }
