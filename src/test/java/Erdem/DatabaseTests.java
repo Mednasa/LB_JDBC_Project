@@ -142,7 +142,76 @@ public class DatabaseTests extends DatabaseHelper {
         DBConnectionClose();
     }
 
+    @Test
+    public void dataBaseTest37() throws SQLException {
+        DBConnectionOpen();
 
+        ResultSet resultSet = queryScreen.executeQuery(
+                "SELECT employees.emp_no, employees.first_name, " +
+                        "employees.last_name, titles.title\n" +
+                        "FROM employees\n" +
+                        "JOIN titles ON employees.emp_no = titles.emp_no\n" +
+                        "WHERE titles.to_date = (SELECT MAX(to_date) FROM titles WHERE titles.emp_no = employees.emp_no) limit 100;"
+        );
+
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+
+        System.out.println();
+        boolean isTrue = true;
+        while (resultSet.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                if (isTrue) {
+                    System.out.printf("%-18s|", rsmd.getColumnName(i));
+                } else {
+                    System.out.printf("%-18s|", resultSet.getString(i));
+                }
+            }
+            if (isTrue) {
+                resultSet.previous();
+            }
+            isTrue = false;
+            System.out.println();
+        }
+
+        DBConnectionClose();
+    }
+
+    @Test
+    public void dataBaseTest36() throws SQLException {
+        DBConnectionOpen();
+
+        ResultSet resultSet = queryScreen.executeQuery(
+                "SELECT \n" +
+                        "emp_no, LEFT(to_date, 4) - LEFT(from_date, 4) AS employment_duration\n" +
+                        "FROM\n" +
+                        "    dept_emp\n" +
+                        "WHERE\n" +
+                        "    to_date < '9999-01-01'\n" +
+                        "GROUP BY emp_no\n" +
+                        "ORDER BY employment_duration DESC limit 100"
+        );
+
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+
+        System.out.println();
+        boolean isTrue = true;
+        while (resultSet.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                if (isTrue) {
+                    System.out.printf("%-19s|", rsmd.getColumnName(i));
+                } else {
+                    System.out.printf("%-19s|", resultSet.getString(i));
+                }
+            }
+            if (isTrue) {
+                resultSet.previous();
+            }
+            isTrue = false;
+            System.out.println();
+        }
+
+        DBConnectionClose();
+    }
 
 
 }
