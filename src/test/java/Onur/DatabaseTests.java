@@ -143,5 +143,30 @@ public class DatabaseTests extends DatabaseHelper {
         DBConnectionClose();
     }
 
+    @Test
+    public void Test26() {
+
+        DBConnectionOpen();
+
+        List<List<String>> returnedData = getListData("select distinct employees.emp_no as calisanNumarası,employees.birth_date as dogumTarihi, \n" +
+                "employees.first_name as adi,employees.last_name as soyadi,employees.gender as cinsiyet, employees.hire_date as iseAlınmaTarihi,\n" +
+                "salaries.from_date,salaries.to_date,salaries.salary as maas, departments.dept_name as departmanAdi, titles.title as unvan\n" +
+                "from employees\n" +
+                "left join titles ON employees.emp_no=titles.emp_no\n" +
+                "left join salaries ON titles.emp_no=salaries.emp_no\n" +
+                "left join dept_emp ON salaries.emp_no=dept_emp.emp_no\n" +
+                "left join departments ON dept_emp.dept_no=departments.dept_no\n" +
+                "where   first_name='Annemarie' and last_name='Redmiles';");
+
+        for (List<String> row : returnedData) {
+            for (String columns : row) {
+                System.out.printf("%-13s|",columns);
+            }
+            System.out.println();
+        }
+
+        DBConnectionClose();
+    }
+
 
 }
