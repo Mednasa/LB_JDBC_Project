@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DatabaseTests extends DatabaseHelper {
 
     @Test
-    public void databaseTest1() throws SQLException {
+    public void databaseTest41() throws SQLException {
         DBConnectionOpen();
 
         ResultSet resultSet = queryScreen.executeQuery("SELECT \n" +
@@ -49,7 +49,7 @@ public class DatabaseTests extends DatabaseHelper {
 
 
     @Test
-    public void dataBaseTest2() throws SQLException {
+    public void dataBaseTest40() throws SQLException {
         DBConnectionOpen();
 
         ResultSet resultSet = queryScreen.executeQuery("select * from employees where hire_date like " +
@@ -78,4 +78,71 @@ public class DatabaseTests extends DatabaseHelper {
         DBConnectionClose();
 
     }
+
+    @Test
+    public void dataBaseTest39() throws SQLException {
+        DBConnectionOpen();
+
+        ResultSet resultSet = queryScreen.executeQuery("select * from employees order by birth_date limit 100;\n");
+
+
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+
+
+        System.out.println();
+        boolean isTrue = true;
+        while (resultSet.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                if (isTrue) {
+                    System.out.printf("%-13s|", rsmd.getColumnName(i));
+                } else {
+                    System.out.printf("%-13s|", resultSet.getString(i));
+                }
+            }
+            if (isTrue) {
+                resultSet.previous();
+            }
+            isTrue = false;
+            System.out.println();
+        }
+
+        DBConnectionClose();
+
+    }
+
+
+    @Test
+    public void dataBaseTest38() throws SQLException {
+        DBConnectionOpen();
+
+        ResultSet resultSet = queryScreen.executeQuery("SELECT employees.first_name, employees.last_name\n" +
+                "FROM employees\n" +
+                "left JOIN dept_manager ON employees.emp_no = dept_manager.emp_no\n" +
+                "WHERE dept_manager.dept_no = 'D005';");
+
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+
+        System.out.println();
+        boolean isTrue = true;
+        while (resultSet.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                if (isTrue) {
+                    System.out.printf("%-13s|", rsmd.getColumnName(i));
+                } else {
+                    System.out.printf("%-13s|", resultSet.getString(i));
+                }
+            }
+            if (isTrue) {
+                resultSet.previous();
+            }
+            isTrue = false;
+            System.out.println();
+        }
+
+        DBConnectionClose();
+    }
+
+
+
+
 }
