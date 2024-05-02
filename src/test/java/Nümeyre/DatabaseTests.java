@@ -95,7 +95,7 @@ public class DatabaseTests extends DatabaseHelper {
     public void Test20() throws SQLException {
         // 20- List the names, last names, hire dates, and salaries of all employees in the Sales department who
         // were hired between January 01, 1985 and December 31, 1989, sorted by salary in descending order.
-
+        DBConnectionOpen();
         List<List<String>> returnedData = getListData(
                 "SELECT employees.first_name, employees.last_name, dept_manager.from_date, dept_manager.to_date\n" +
                         "FROM employees\n" +
@@ -113,24 +113,24 @@ public class DatabaseTests extends DatabaseHelper {
     }
 
     @Test
-        public void Test28() throws SQLException {
-            // 28. List all employees hired after '1994-02-24' and earning more than 50,000
-
-            List<List<String>> returnedData = getListData(
-                     "SELECT e.emp_no, e.first_name, e.last_name, e.birth_date, e.gender, e.hire_date, t.title, s.salary\n" +
-                             "FROM employees e\n" +
-                             "JOIN titles t ON e.emp_no = t.emp_no\n" +
-                             "JOIN salaries s ON e.emp_no = s.emp_no\n" +
-                             "WHERE e.hire_date > '1994-02-24' AND s.salary > 50000;\n");
-            for (List<String> row : returnedData) {
-                for (String columns : row) {
-                    System.out.printf("%-10s", columns);
-                }
-                System.out.println();
+    public void Test28() throws SQLException {
+        // 28. List all employees hired after '1994-02-24' and earning more than 50,000
+        DBConnectionOpen();
+        List<List<String>> returnedData = getListData(
+                "SELECT e.emp_no, e.first_name, e.last_name, e.birth_date, e.gender, e.hire_date, t.title, s.salary\n" +
+                        "FROM employees e\n" +
+                        "JOIN titles t ON e.emp_no = t.emp_no\n" +
+                        "JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                        "WHERE e.hire_date > '1994-02-24' AND s.salary > 50000;\n");
+        for (List<String> row : returnedData) {
+            for (String columns : row) {
+                System.out.printf("%-10s", columns);
             }
-
-            DBConnectionClose();
+            System.out.println();
         }
+
+        DBConnectionClose();
+    }
 }
 
 
