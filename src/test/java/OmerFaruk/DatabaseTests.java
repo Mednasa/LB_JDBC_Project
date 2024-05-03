@@ -63,4 +63,30 @@ public class DatabaseTests extends DatabaseHelper {
 
         DBConnectionClose();
     }
+    @Test
+    public void Test3() throws SQLException {
+        // 3. Calculate the average salary of all employees.
+
+        DBConnectionOpen();
+
+        ResultSet rs=queryScreen.executeQuery("SELECT AVG(salary) AS average_salary\n" +
+                "FROM salaries");
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.print(rsmd.getColumnName(i) + "\t");
+        }
+        System.out.println();
+
+        while (rs.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.print(rs.getString(i) + "\t");
+            }
+            System.out.println();
+        }
+
+
+
+        DBConnectionClose();
+    }
 }
