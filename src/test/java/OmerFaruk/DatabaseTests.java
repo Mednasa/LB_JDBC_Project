@@ -144,4 +144,34 @@ public class DatabaseTests extends DatabaseHelper {
 
         DBConnectionClose();
     }
+    @Test
+    public void Test6() throws SQLException {
+        // 6. List all employees in the "`sales`" department with a salary greater than `70,000`.
+
+        DBConnectionOpen();
+
+        ResultSet rs=queryScreen.executeQuery("SELECT e.*, s.salary\n" +
+                "FROM employees e\n" +
+                "JOIN dept_emp de ON e.emp_no = de.emp_no\n" +
+                "JOIN departments d ON de.dept_no = d.dept_no\n" +
+                "JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                "WHERE d.dept_name = 'Sales' AND s.salary > 70000");
+
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.print(rsmd.getColumnName(i) + "\t");
+        }
+        System.out.println();
+        while (rs.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.print(rs.getString(i) + "\t");
+            }
+            System.out.println();
+        }
+
+
+
+        DBConnectionClose();
+    }
 }
