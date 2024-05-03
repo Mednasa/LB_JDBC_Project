@@ -1011,7 +1011,6 @@ public class DatabaseTests extends DatabaseHelper {
             isTrue = false;
             System.out.println();
         }
-
         DBConnectionClose();
     }
 
