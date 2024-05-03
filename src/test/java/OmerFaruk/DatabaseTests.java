@@ -35,4 +35,32 @@ public class DatabaseTests extends DatabaseHelper {
 
         DBConnectionClose();
     }
+    @Test
+    public void Test2() throws SQLException {
+        // 2. List all employees in '`Human Resources`' department.
+
+        DBConnectionOpen();
+
+        ResultSet rs = queryScreen.executeQuery("SELECT employees.*\n" +
+                "FROM employees\n" +
+                "INNER JOIN dept_emp ON employees.emp_no = dept_emp.emp_no\n" +
+                "INNER JOIN departments ON dept_emp.dept_no = departments.dept_no\n" +
+                "WHERE departments.dept_name = 'Human Resources'");
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.print(rsmd.getColumnName(i) + "\t");
+        }
+        System.out.println();
+
+        while (rs.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.print(rs.getString(i) + "\t");
+            }
+            System.out.println();
+        }
+
+
+        DBConnectionClose();
+    }
 }
