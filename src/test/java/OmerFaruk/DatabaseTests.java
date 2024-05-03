@@ -89,4 +89,31 @@ public class DatabaseTests extends DatabaseHelper {
 
         DBConnectionClose();
     }
+    @Test
+    public void Test4() throws SQLException {
+        // 4. Calculate the average salary of all employees with gender "`M`".
+
+        DBConnectionOpen();
+
+        ResultSet rs=queryScreen.executeQuery("SELECT AVG(s.salary) AS average_salary\n" +
+                "FROM employees e\n" +
+                "INNER JOIN salaries s ON e.emp_no = s.emp_no\n" +
+                "WHERE e.gender = 'F'");
+
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.print(rsmd.getColumnName(i) + "\t");
+        }
+        System.out.println();
+        while (rs.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                System.out.print(rs.getString(i) + "\t");
+            }
+            System.out.println();
+        }
+
+
+        DBConnectionClose();
+    }
 }
