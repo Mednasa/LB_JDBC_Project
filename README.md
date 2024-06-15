@@ -1,4 +1,4 @@
-![Ss5gEYF_STKnVa07cJfCdw](https://github.com/Mednasa/_LB_Nopcommerce_Project/assets/159004360/bc5cce3f-2550-4c18-93b1-0051b869869b)
+
 # Employees Schema
 This README file contains various SQL queries for a sample `employees` schema. The queries can be adapted to your database schema and needs.
 
